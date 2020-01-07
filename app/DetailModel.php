@@ -14,7 +14,7 @@ class DetailModel extends Model
         where m.ID = ?
         and m.ID = mb.Mahlzeiten_ID
         and b.ID = mb.Bilder_ID
-        and p.Mahlzeiten_ID = m.ID', [$id])[0];
+        and p.Mahlzeiten_ID = m.ID', [$id]);
     }
 
     public function getZutatenById($id)

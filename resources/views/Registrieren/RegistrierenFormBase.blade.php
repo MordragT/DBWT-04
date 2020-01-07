@@ -2,7 +2,7 @@
 @section('title') Registrierung @endsection
 @section('content')
 <div class="my-4">
-  @if(!empty($error))
+  @if($error != null)
   <fieldset class="error offset-3">
     <legend>Es gab Fehler beim Bearbeiten Ihrer Anfrage:</legend>
     <ul>
@@ -12,7 +12,7 @@
     </ul>
   </fieldset>
   @endif
-  <form method="POST" action="?url=registrieren">
+  <form method="POST" action="/registrieren">
     <fieldset>
       <legend class="offset-3">Ihre Registrierung</legend>
       <div class="row my-2">

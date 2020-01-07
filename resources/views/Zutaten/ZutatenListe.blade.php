@@ -25,7 +25,7 @@
                         <button class="table-button" type="submit">
                             {{ $zutat->Name }}
                             @if ($zutat->Bio)
-                            <img height="30" src="@asset('img/bio.png')" alt="Bio" />
+                            <img height="30" src="img/bio.png" alt="Bio" />
                             @endif
                         </button></span>
                 </form>

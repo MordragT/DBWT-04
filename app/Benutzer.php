@@ -2,30 +2,52 @@
 
 namespace App;
 
-class Benutzer
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+
+class Benutzer extends Authenticatable
 {
+    use Notifiable;
 
-    public $benutzername;
-    public $vorname;
-    public $nachname;
-    public $email;
-    public $geburtsdatum;
-    public $fachbereich;
-    public $matrikelnummer;
-    public $studiengang;
-    public $student;
-    public $mitarbeiter;
-    public $büro;
-    public $telefon;
-    private $hash;
+    protected $table = 'Benutzer';
+    protected $primaryKey = 'Nummer';
 
-    public function setPasswort($passwort)
-    {
-        $this->hash = password_hash($passwort, PASSWORD_BCRYPT);
-    }
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'E-mail',
+        'Benutzername',
+        'Vorname',
+        'Nachname',
+        'Hash',
+        'Geburtsdatum',
+    ];
 
-    public function getHash()
-    {
-        return $this->hash;
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'Hash', 'remember_token',
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
+
+
+    public function getPasswordAttribute() {
+        return $this->Hash;
     }
 }
+

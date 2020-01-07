@@ -49,12 +49,19 @@ use App\AuthModel;
             }
         }
 
-        public function createView()
+        public function login() {
+            return true;
+        }
+
+        public function showLoginForm()
         {
+            /*
             $this->authenticate();
             
             if($_SESSION['loginstatus'] == 'angemeldet') return view("Login.LoginAngemeldet", []);
             elseif($_SESSION['loginstatus'] == 'loginfehler') return view("Login.LoginFehler", []);
             else return view("Login.LoginAbgemeldet", []);
+            */
+            return view('Login.Login',[]);
         }
     }

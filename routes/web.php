@@ -13,9 +13,13 @@
 
 Route::get('/', function () {
     return view("Start.Start");
-});
+})->name('home');
 
-Route::get('/detail', 'DetailController@createView');
+Route::get('/home', function () {
+    return view("Start.Start");
+})->name('home');
+
+Route::match(['get', 'post'],'/detail', 'DetailController@createView');
 
 Route::get('/produkte', 'ProdukteController@createView');
 
@@ -27,4 +31,5 @@ Route::get('/impressum', function() {
 
 Route::get('/registrieren', 'RegistrierenController@createView');
 
-Route::get('/login', 'AuthController@createView');
+Route::get('/login', 'LoginController@showLoginForm')->name('login');
+Route::post('/login', 'LoginController@login')->name('login.submit');

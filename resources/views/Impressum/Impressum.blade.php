@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Impressum</title>
-    <meta http-equiv="refresh" content="3,URL='?url=produkte'" />
+    <meta http-equiv="refresh" content="3,URL='/produkte'" />
 </head>
 <body>
 

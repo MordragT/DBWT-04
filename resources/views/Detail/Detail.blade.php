@@ -1,6 +1,6 @@
 @extends('App') 
 @section('head') @if($id == 404)
-<meta http-equiv="refresh" content="1,URL=?url=produkte" />
+<meta http-equiv="refresh" content="1,URL=/produkte" />
 @endif @endsection
 @section('title') Details @endsection
 @section('content')
@@ -155,7 +155,9 @@
         role="tabpanel"
         aria-labelledby="bew-tab"
       >
-        <form action="http://bc5.m2c-lab.fh-aachen.de/form.php" method="post">
+      <!--http://bc5.m2c-lab.fh-aachen.de/form.php-->
+        <form action="#" method="post">
+          @csrf
           <fieldset>
             <legend class="text-center mb-3">Mahlzeit bewerten</legend>
             <div class="row mr-3 mb-4">
@@ -197,7 +199,7 @@
               <input
                 type="submit"
                 class="btn col-8"
-                value="Bewertung absenden >"
+                value="comment"
               />
             </div>
             <input type="hidden" name="matrikel" value="3193955" />

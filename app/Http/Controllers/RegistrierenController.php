@@ -61,6 +61,7 @@ class RegistrierenController extends Controller
     public function createView()
     {
         session_start();
+        $_SESSION['error']['initial'] = "asdasda";
         $this->benutzer->benutzername = isset($_POST['reg-benutzername']) ? $_POST['reg-benutzername'] : null;
         $this->benutzer->student = isset($_POST['student']) ? $_POST['reg-benutzername'] : null;
         $this->benutzer->mitarbeiter = isset($_POST['mitarbeiter']) ? $_POST['mitarbeiter'] : null;

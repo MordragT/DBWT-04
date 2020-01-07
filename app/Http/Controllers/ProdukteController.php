@@ -18,8 +18,12 @@ class ProdukteController extends Controller
 
     public function createView()
     {
+        $kat = isset($_GET['kat']) ? $_GET['kat'] : 3;
+        $avail = isset($_GET['avail']) ? $_GET['avail'] : null;
+        $vegetarisch = isset($_GET['vegetarisch']) ? $_GET['vegetarisch'] : false;
+        $vegan = isset($_GET['vegan']) ? $_GET['vegan'] : false;
 
-        $produkte = $this->model->getProdukte();
+        $produkte = $this->model->getProdukte($vegan, $vegetarisch);
         $optGroups = $this->model->getOptGroups();
         $options = $this->model->getOptions();
 
@@ -27,10 +31,7 @@ class ProdukteController extends Controller
         $katname = '';
 
         $limit = isset($_GET['limit']) ? $_GET['limit'] : sizeof($produkte);
-        $kat = isset($_GET['kat']) ? $_GET['kat'] : 3;
-        $avail = isset($_GET['avail']) ? $_GET['avail'] : 0;
-        $vegetarisch = isset($_GET['vegetarisch']) ? $_GET['vegetarisch'] : 0;
-        $vegan = isset($_GET['vegan']) ? $_GET['vegan'] : 0;
+
 
 
         foreach ($optGroups as $optGroup) {
@@ -46,11 +47,11 @@ class ProdukteController extends Controller
         return view("Produkte.Produkte", [
             'produkte' => $produkte,
             'limit' => $limit,
-            'avail' => $avail,
             'limitCount' => $limitCount,
             'optGroups' => $optGroups,
             'kat' => $kat,
             'katname' => $katname,
+            'avail' => $avail,
             'vegetarisch' => $vegetarisch,
             'vegan' => $vegan,
         ]);

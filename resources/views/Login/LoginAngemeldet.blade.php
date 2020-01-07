@@ -7,6 +7,7 @@
 </p>
 <p>
     <form method="POST" action="#" class="offset-3 col-6">
+        @csrf
         <input type="hidden" name="logout" value="true">
         <input type="submit" class="btn btn-block" value="Abmelden">
     </form>

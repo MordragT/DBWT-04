@@ -2,6 +2,7 @@
 @section('title') Login @endsection
 @section('content')
 <form method="POST" action="#">
+    @csrf
     <fieldset class="offset-3 col-6">
         <legend>Login</legend>
         <label for="user" class="sr-only">Benutzer</label>
