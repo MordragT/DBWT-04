@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\DetailModel;
 
@@ -14,7 +13,6 @@ class DetailController extends Controller
     function __construct()
     {
         $this->model = new DetailModel();
-        $this->auth = new AuthController();
     }
 
     public function createView()

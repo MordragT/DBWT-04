@@ -11,25 +11,39 @@
 |
 */
 
+use App\Benutzer;
+use Illuminate\Http\Request;
+
 Route::get('/', function () {
     return view("Start.Start");
 })->name('home');
 
-Route::get('/home', function () {
-    return view("Start.Start");
-})->name('home');
+Route::get('/detail', 'DetailController@createView')->name('details');
 
-Route::match(['get', 'post'],'/detail', 'DetailController@createView');
+Route::get('/produkte', 'ProdukteController@createView')->name('products');
 
-Route::get('/produkte', 'ProdukteController@createView');
-
-Route::get('/zutatenliste', 'ZutatenController@createView');
+Route::get('/zutatenliste', 'ZutatenController@createView')->name('ingredients');
 
 Route::get('/impressum', function() {
     return view("Impressum.Impressum");
-});
+})->name('imprint');
 
-Route::get('/registrieren', 'RegistrierenController@createView');
+Auth::routes();
+
+Route::get('/register', 'RegisterController@showFirstRegistrationForm')->name('register');
+Route::post('/register', 'RegisterController@validateFirstForm')->name('register.first.submit');
+
+Route::get('/register/last', 'RegisterController@showRegistrationForm')->name('register.last');
+Route::post('/register/last', 'RegisterController@register')->name('register.last.submit');
+
+Route::get('/register/success', function(Request $request) {
+    return $request->session()->has('id') ? view('Registrieren.RegistrierenErfolgreich', ['id' => $request->session()->get('id')]) : view('404');
+})->name('register.success');
+
+Route::get('/login/successful', function() {
+    return view('Login.LoginSuccessful');
+})->middleware('auth')->name('login.successful');
 
 Route::get('/login', 'LoginController@showLoginForm')->name('login');
 Route::post('/login', 'LoginController@login')->name('login.submit');
+

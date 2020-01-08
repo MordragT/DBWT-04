@@ -6,10 +6,10 @@
     <div class="col-6">
       <ul class="list-group list-group-horizontal">
         <li class="list-group-item border-top-0 border-bottom-0 border-right-0">
-          <a href="/" class="btn-link link">Start</a>
+          <a href="{{ route('home') }}" class="btn-link link">Start</a>
         </li>
         <li class="list-group-item border-top-0 border-bottom-0 border-right-0">
-          <a href="/produkte" class="btn-link link">Mahlzeiten</a>
+          <a href="{{ route('products') }}" class="btn-link link">Mahlzeiten</a>
         </li>
         <li class="list-group-item border-top-0 border-bottom-0 border-right-0">
           <a href="#" class="btn-link link">Bestellung</a>

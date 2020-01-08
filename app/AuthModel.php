@@ -19,6 +19,6 @@ class AuthModel extends Model
 
     public function getTyp($name)
     {
-        return DB::select('select Typ from Benutzertyp where Benutzername = ?',[$name])->Typ;
+        return DB::select('select Typ from Benutzertyp where Benutzername = ?',[$name])[0]->Typ;
     }
 }

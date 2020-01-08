@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 
 class Benutzer extends Authenticatable
 {
@@ -12,6 +13,7 @@ class Benutzer extends Authenticatable
 
     protected $table = 'Benutzer';
     protected $primaryKey = 'Nummer';
+    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.
@@ -19,7 +21,7 @@ class Benutzer extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'E-mail',
+        'Email',
         'Benutzername',
         'Vorname',
         'Nachname',
@@ -32,9 +34,7 @@ class Benutzer extends Authenticatable
      *
      * @var array
      */
-    protected $hidden = [
-        'Hash', 'remember_token',
-    ];
+    protected $hidden = ['Hash'];
 
     /**
      * The attributes that should be cast to native types.
@@ -48,6 +48,18 @@ class Benutzer extends Authenticatable
 
     public function getPasswordAttribute() {
         return $this->Hash;
+    }
+
+    public function getTypAttribute() {
+        return DB::select('select Typ from Benutzertyp where Benutzername = ?',[$this->Benutzername])[0]->Typ;
+    }
+
+    public function gast() {
+        return $this->hasOne('App\Gast','Benutzer_Nummer');
+    }
+
+    public function angehöriger() {
+        return $this->hasOne('App\Angehöriger','Benutzer_Nummer');
     }
 }
 

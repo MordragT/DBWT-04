@@ -2,35 +2,14 @@
 
 namespace App;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Model;
 
-class Student extends Authenticatable
+class Student extends Model
 {
-    use Notifiable;
-
     protected $table = 'Studenten';
-    protected $primaryKey = 'FH Angehörige_Nummer';
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = ['Matrikelnummer','Studiengang'];
-
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [];
+    protected $primaryKey = 'FH_Angehörige_Nummer';
+    public $timestamps = false;
+    public $incrementing = false;
+    protected $fillable = ['Matrikelnummer', 'Studiengang'];
 }
+

@@ -16,14 +16,14 @@
       <div class="col-12 pb-5">
         <p>
           Der Dienst e-Mensa is noch beta. Sie können bereits
-          <a href="/produkte" class="link">Mahlzeiten</a>
+          <a href="{{ route('products') }}" class="link">Mahlzeiten</a>
           durchstöbern, aber noch nicht bestellen.
         </p>
       </div>
       <div class="col-12">
         <p>
           Registrieren Sie sich
-          <a href="/registrieren" class="link">hier</a>
+          <a href="{{ route('register') }}" class="link">hier</a>
           um Über die Veröffentlichung des Dienstes per Mail informiert zu
           werden.
         </p>
@@ -40,11 +40,11 @@
         <p>... und gemeinsam mit Kommilitonen und Freunden essen</p>
       </div>
       <div class="col-3 pb-5 py-2">
-        <a class="btn btn-block" href="/registrieren" role="button">
+        <a class="btn btn-block" href="{{ route('register') }}" role="button">
           <i class="fa fa-hand-o-right"></i> Registrieren
         </a>
         <br />
-        <a class="btn btn-block" href="/login" role="button">
+        <a class="btn btn-block" href="{{ route('login') }}" role="button">
           <i class="fa fa-sign-in"></i> Anmelden
         </a>
       </div>
