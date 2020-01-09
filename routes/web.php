@@ -18,7 +18,8 @@ Route::get('/', function () {
     return view("Start.Start");
 })->name('home');
 
-Route::get('/detail', 'DetailController@createView')->name('details');
+Route::get('/detail/{id}', 'DetailController@createView')->name('details');
+Route::post('/detail/{id}', 'DetailController@comment')->middleware('auth')->name('comment.submit');
 
 Route::get('/produkte', 'ProdukteController@createView')->name('products');
 

@@ -50,12 +50,13 @@ class RegisterController extends Controller
             'Geburtsdatum' => 'date',
             'Grund' => Rule::requiredIf(!$mitarbeiter and !$student),
             'Fachbereich' => Rule::requiredIf($mitarbeiter or $student),
-            'Matrikelnummer' => Rule::requiredIf($student),
+            'Matrikelnummer' => 'unique:Studenten',
             'Studiengang' => Rule::requiredIf($student),
             'Telefon' => 'max:15',
             'Büro' => 'max:4',
         ], [
-            'Email.unique' => 'Diese Email wird bereits benutzt.'
+            'Email.unique' => 'Diese Email wird bereits benutzt.',
+            'Matrikelnummer.unique' => 'Diese Matrikelnummer ist bereits registriert.',    
         ]);
 
         if ($validator->fails()) {
@@ -71,12 +72,13 @@ class RegisterController extends Controller
                 'Email' => $validator->validated()['Email'],
             ]);
 
+            $request->session()->forget(['firstForm']);
+            
             if ($mitarbeiter || $student) {
                 $angehöriger = $user->angehöriger()->create();
-                $fachbereich = Fachbereich::where('Name', $validator->validated()['Fachbereich'])->first();
                 GehörtZu::create([
                     'Nummer_FH_Angehörige' => $angehöriger->Benutzer_Nummer,
-                    'Fachbereiche_ID' => $fachbereich->ID,
+                    'Fachbereiche_ID' => $validator->validated()['Fachbereich'],
                 ]);
                 if ($mitarbeiter) {
                     $mitarbeiter = $angehöriger->mitarbeiter()->create();

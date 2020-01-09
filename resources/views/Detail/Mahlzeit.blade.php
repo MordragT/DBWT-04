@@ -1,24 +1,20 @@
+@extends('App') @section('title') Details @endsection @section('content')
 <div class="row mt-4">
     <div class="col-3 pt-5">
         @if(Auth::check())
         <p>Du bist eingeloggt als {{ Auth::user()->Typ }}!</p>
-        <form
-        id="logout-form"
-        action="{{ route('logout') }}"
-        method="POST"
-    >
-        @csrf
-        <button type="submit" class="btn">Abmelden</button>
-    </form>
-        @else
-        @include('Login.LoginForm') @endif
+        <form id="logout-form" action="{{ route('logout') }}" method="POST">
+            @csrf
+            <button type="submit" class="btn">Abmelden</button>
+        </form>
+        @else @include('Login.LoginForm') @endif
     </div>
     <div class="col-6">
-        <h2>Details für {{ $produkt->Name }}</h2>
+        <h2>Details für {{ $mahlzeit->Name }}</h2>
         <img
-            src="data:image/gif;base64,{{ base64_encode($produkt->Binärdaten) }}"
+            src="data:image/gif;base64,{{ base64_encode($mahlzeit->bilder->Binärdaten) }}"
             class="rounded img-fluid"
-            alt="{//{ $produkt->Alt-Text }}"
+            alt="{{ $mahlzeit->bilder->{'Alt-Text'} }}"
         />
     </div>
     <div class="col-3">
@@ -30,16 +26,16 @@
                     <strong>{{ Auth::user()->Typ }}</strong
                     >-Preis
                 </p>
-                <h2>{{ $produkt->Studierendenpreis }}€</h2>
+                <h2>{{ $mahlzeit->preis->Studentpreis }}€</h2>
                 @elseif(Auth::check() and Auth::user()->Typ == 'Mitarbeiter')
                 <p>
                     <strong>{{ Auth::user()->Typ }}</strong
                     >-Preis
                 </p>
-                <h2>{{ $produkt->Mitarbeiterpreis }}€</h2>
+                <h2>{{ $mahlzeit->preis->{'MA-Preis'} }}€</h2>
                 @else
                 <p><strong>Gast</strong>-Preis</p>
-                <h2>{{ $produkt->Gastpreis }}€</h2>
+                <h2>{{ $mahlzeit->preis->Gastpreis }}€</h2>
                 @endif
                 <br />
             </div>
@@ -111,7 +107,7 @@
                 role="tabpanel"
                 aria-labelledby="beschr-tab"
             >
-                <p>{{ $produkt->Beschreibung }}</p>
+                <p>{{ $mahlzeit->Beschreibung }}</p>
             </div>
             <div
                 class="tab-pane fade"
@@ -127,36 +123,14 @@
                 role="tabpanel"
                 aria-labelledby="bew-tab"
             >
+                @if(Auth::check() && Auth::user()->Typ == 'Studierender')
                 <!--http://bc5.m2c-lab.fh-aachen.de/form.php-->
-                <form action="#" method="post">
+                <form action="{{ route('comment.submit', $id) }}" method="post">
                     @csrf
                     <fieldset>
                         <legend class="text-center mb-3">
                             Mahlzeit bewerten
                         </legend>
-                        <div class="row mr-3 mb-4">
-                            <label class="col-4" for="mahlzeit"
-                                >Mahlzeit:</label
-                            >
-                            <select
-                                class="form-control col-8"
-                                id="mahlzeit"
-                                name="mahlzeit"
-                            >
-                                <option>Falafel</option>
-                            </select>
-                        </div>
-                        <div class="row mb-4 mr-3">
-                            <label class="col-4" for="benutzer"
-                                >Benutzername:</label
-                            >
-                            <input
-                                type="text"
-                                id="benutzer"
-                                name="benutzer"
-                                class="col-8 form-control"
-                            />
-                        </div>
                         <div class="row mb-4 mr-3">
                             <label class="col-4" for="bewertung"
                                 >Bewertung:</label
@@ -182,17 +156,50 @@
                             ></textarea>
                         </div>
                         <div class="row mb-4 mr-3 justify-content-end">
-                            <input
-                                type="submit"
-                                class="btn col-8"
-                                value="comment"
-                            />
+                            <button type="submit" class="btn col-8">
+                                Kommentieren
+                            </button>
                         </div>
-                        <input type="hidden" name="matrikel" value="3193955" />
-                        <input type="hidden" name="kontrolle" value="mar" />
+                        <!--input type="hidden" name="matrikel" value="3193955" />
+                        <input type="hidden" name="kontrolle" value="mar" /-->
                     </fieldset>
                 </form>
+                @else
+                <p>
+                    Bitte loggen Sie sich als Student ein um Bewertungen
+                    abzugeben.
+                </p>
+                @endif
+                <strong>Durchschnittsbewertung für {{ $mahlzeit->Name }}: {{ $mahlzeit->Bewertung }}</strong>
+                <br><br>
+                <table class="table table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Benutzer</th>
+                            <th scope="col">Bewertung</th>
+                            <th scope="col">Bemerkung</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($kommentare as $kommentar)
+                        <tr>
+                            <th scope="row">{{ $loop->iteration }}</th>
+                            <td>
+                                {{ $kommentar->student->angehöriger->benutzer->Benutzername }}
+                            </td>
+                            <td>
+                                @for($i = 0; $i < $kommentar->Bewertung; $i++)
+                                    <i class="fa fa-star"></i>
+                                @endfor
+                            </td>
+                            <td class="d-inline-block text-truncate" style="max-width: 300px;">{{ $kommentar->Bemerkung }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 </div>
+@endsection

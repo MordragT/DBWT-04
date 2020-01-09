@@ -1,12 +1,9 @@
-@extends('App') @section('head') @if($id == 404)
+@extends('App') @section('head')
 <meta http-equiv="refresh" content="1,URL={{ route('products') }}" />
-@endif @endsection @section('title') Details @endsection @section('content')
-@if($id != 404)
-  @include('Detail.Mahlzeit')
-@else
+@endsection @section('title') Details @endsection @section('content')
 <br /><br /><br />
 <p class="text-center">
     Diese Mahlzeit wurde nicht gefunden leite zurück, bitte warten ...
 </p>
 <br /><br /><br />
-@endif @endsection
+@endsection

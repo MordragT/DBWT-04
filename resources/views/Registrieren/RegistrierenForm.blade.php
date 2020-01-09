@@ -101,7 +101,7 @@
                                     name="Fachbereich"
                                 >
                                     @foreach($fachbereiche as $opt)
-                                    <option>{{ $opt->Name }}</option>
+                                    <option value="{{ $opt->ID }}">{{ $opt->Name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -125,6 +125,11 @@
                                     value="{{ old('Matrikelnummer') }}"
                                     required
                                 />
+                                @error('Matrikelnummer')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
                             </div>
                         </div>
                         <div class="row form-group">

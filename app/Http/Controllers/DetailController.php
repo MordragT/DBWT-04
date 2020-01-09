@@ -5,46 +5,45 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Mahlzeit;
+use Illuminate\Http\Request;
+use App\Student;
+use Illuminate\Support\Facades\Auth;
+use App\Kommentar;
 
 class DetailController extends Controller
 {
-    public function createView()
+    public function comment(Request $request, $id)
     {
-        if (isset($_POST['comment'])) {
-            $date = date("Y-m-d H:i:s");
-            $comment_user = DB::select('SELECT Nummer FROM Benutzer WHERE Benutzername = "' . $_POST['benutzer'] . '";');
-            $comment_mahlzeit = DB::select('SELECT ID FROM Mahlzeiten WHERE Name = "' . $_POST['mahlzeit'] . '";');
-            $test = DB::select('SELECT Bewertung FROM Kommentare WHERE student_id = ' . $comment_user[0]->Nummer . 'AND mahlzeit_id = ' . $comment_mahlzeit[0]->ID . ';');
-            if (empty($test)) {
-                if (isset($_POST['bemerkung'])) {
-                    DB::insert('INSERT INTO Kommentare(Bewertung,Bemerkung,mahlzeit_id,student_id,Zeitpunkt) VALUES
-                    (' . $_POST['bewertung'] . ',"' . $_POST['bemerkung'] . '",' . $comment_mahlzeit[0]->ID . ',' . $comment_user[0]->Nummer . ',"' . $date . '")');
-                } else {
-                    DB::insert('INSERT INTO Kommentare(Bewertung,mahlzeit_id,student_id,Zeitpunkt) VALUES
-                    (' . $_POST['bewertung'] . ',' . $comment_mahlzeit[0]->ID . ',' . $comment_user[0]->Nummer . ',"' . $date . '");');
-                }
-            } else {
-                if (isset($_POST['bemerkung'])) {
-                    DB::update('UPDATE Kommentare
-                        SET Bewertung = ' . $_POST['bewertung'] . ', Bemerkung = "' . $_POST['bemerkung'] . '", Zeitpunkt = "' . $date . '"
-                        WHERE student_id = ' . $comment_user[0]->Nummer . '
-                        AND mahlzeit_id = ' . $comment_mahlzeit[0]->ID . ';');
-                } else {
-                    DB::update('UPDATE Kommentare
-                        SET Bewertung = ' . $_POST['bewertung'] . ', Zeitpunkt = "' . $date . '"
-                        WHERE student_id = ' . $comment_user[0]->Nummer . '
-                        AND mahlzeit_id = ' . $comment_mahlzeit[0]->ID . ';');
-                }
-            }
-        }
+        $this->validate($request, [
+            'bewertung' => 'required|numeric|min:1|max:5',
+            'bemerkung' => 'string',
 
-        $id = isset($_GET['id']) ? $_GET['id'] : 404;
+        ]);
+
+        $student = Student::find(Auth::user()->Nummer);
+        $kommentar = new Kommentar([
+            'Bewertung' => $request->bewertung,
+            'Bemerkung' => $request->bemerkung,
+        ]);
+        $kommentar->student()->associate($student);
+        $kommentar->mahlzeit()->associate(Mahlzeit::find($id));
+        $kommentar->save();
+
+        return redirect(route('details', $id));
+    }
+
+    public function createView($id)
+    {
         $mahlzeit = Mahlzeit::find($id);
 
-        if (empty($mahlzeit)) {
-            $id = 404;
-            return view('Detail.Detail', ['id' => $id]);
-        } 
-        return view("Detail.Detail", ['produkt' => $mahlzeit->getBilderPreise(), 'id' => $id, 'zutaten' => $mahlzeit->getZutaten()]);
+        if (!empty($mahlzeit)) {
+            return view("Detail.Mahlzeit", [
+                'zutaten' => $mahlzeit->zutaten,
+                'mahlzeit' => $mahlzeit,
+                'kommentare' => Kommentar::where('Mahlzeiten_ID', $mahlzeit->ID)->orderBy('ID', 'desc')->take(5)->get(),
+                'id' => $id,
+            ]);
+        } else return view('Detail.NotFound');
+        
     }
 }
