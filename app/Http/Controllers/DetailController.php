@@ -4,17 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\DetailModel;
+use App\Mahlzeit;
 
 class DetailController extends Controller
 {
-    protected $model;
-    protected $auth;
-    function __construct()
-    {
-        $this->model = new DetailModel();
-    }
-
     public function createView()
     {
         if (isset($_POST['comment'])) {
@@ -45,13 +38,13 @@ class DetailController extends Controller
             }
         }
 
-        $this->auth->authenticate();
         $id = isset($_GET['id']) ? $_GET['id'] : 404;
-        $produkt = $this->model->getById($id);
-        if (empty($produkt)) {
+        $mahlzeit = Mahlzeit::find($id);
+
+        if (empty($mahlzeit)) {
             $id = 404;
-            return view('Detail.Detail', ['produkt' => $produkt, 'id' => $id]);
+            return view('Detail.Detail', ['id' => $id]);
         } 
-        return view("Detail.Detail", ['produkt' => $produkt[0], 'id' => $id, 'zutaten' => $this->model->getZutatenById($id)]);
+        return view("Detail.Detail", ['produkt' => $mahlzeit->getBilderPreise(), 'id' => $id, 'zutaten' => $mahlzeit->getZutaten()]);
     }
 }

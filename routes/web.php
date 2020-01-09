@@ -11,7 +11,7 @@
 |
 */
 
-use App\Benutzer;
+use App\Zutat;
 use Illuminate\Http\Request;
 
 Route::get('/', function () {
@@ -22,7 +22,9 @@ Route::get('/detail', 'DetailController@createView')->name('details');
 
 Route::get('/produkte', 'ProdukteController@createView')->name('products');
 
-Route::get('/zutatenliste', 'ZutatenController@createView')->name('ingredients');
+Route::get('/zutatenliste', function() {
+    return view('Zutaten.Zutaten', ['zutaten' => Zutat::orderBy('Bio', 'desc')->get()]);
+})->name('ingredients');
 
 Route::get('/impressum', function() {
     return view("Impressum.Impressum");

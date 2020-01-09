@@ -13,10 +13,6 @@ use Illuminate\Validation\Rule;
 
 class RegisterController extends Controller
 {
-    public function __construct()
-    {
-    }
-
     public function validateFirstForm(Request $request)
     {
         $validator = Validator::make($request->all(), [
