@@ -48,6 +48,6 @@ Route::get('/login/successful', function() {
 })->middleware('auth')->name('login.successful');
 Route::post('/login/successful', 'LoginController@logout')->middleware('auth')->name('logout');
 
-Route::get('/login', 'LoginController@showLoginForm')->name('login');
-Route::post('/login', 'LoginController@login')->name('login.submit');
+Route::get('/login', 'LoginController@showLoginForm')->middleware('guest')->name('login');
+Route::post('/login', 'LoginController@login')->middleware('guest')->name('login.submit');
 

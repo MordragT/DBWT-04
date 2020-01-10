@@ -40,8 +40,8 @@
                 <br />
             </div>
             <div class="col-12 pt-5">
-                <form>
-                    <input type="hidden" name="produkt" value="falafel" />
+                <form method="GET">
+                    <input type="hidden" name="mahlzeit" value="{{ $mahlzeit->ID }}" />
                     <button type="submit" class="btn btn-block">
                         <i class="fa fa-cutlery"></i> Vorbestellen
                     </button>
