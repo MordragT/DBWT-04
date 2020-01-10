@@ -14,14 +14,14 @@ $limitCount++;
         @if ($produkt->Verfügbar)
         <div class="card-body text-center alert-info">
             <p class="card-title">{{ $produkt->Name }}</p>
-            <a href="/detail/{{ $produkt->ID }}" class="btn-link link"
+            <a href="{{ route('details',$produkt->ID) }}" class="btn-link link"
                 >Details</a>
         </div>
         @else
         <div class="card-body text-center alert-secondary">
             <p class="card-title">{{ $produkt->Name }}</p>
             <a
-                href="/detail/{{ $produkt->ID }}"
+                href="{{ route('details',$produkt->ID) }}"
                 class="btn-link link disabled"
                 >Vergriffen</a>
         </div>

@@ -4,15 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
+use Auth;
 
 class LoginController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('guest');
-    }
-
     public function login(Request $request)
     {
         //Validate Form
@@ -32,12 +27,17 @@ class LoginController extends Controller
             $user->save();
 
             //Succesfull: redirect to intended location
-            return redirect()->intended(route('login.successful'));
+            return redirect()->back();
         }
 
         //Unsuccesfull: redirect to form
         return redirect()->back()->withInput($request->only('Benutzername', 'password'));
     }
+
+    public function logout(Request $request) {
+        Auth::logout();
+        return redirect()->back();
+      }
     
     public function showLoginForm()
     {

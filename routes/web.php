@@ -31,7 +31,7 @@ Route::get('/impressum', function() {
     return view("Impressum.Impressum");
 })->name('imprint');
 
-Auth::routes();
+//Auth::routes();
 
 Route::get('/register', 'RegisterController@showFirstRegistrationForm')->name('register');
 Route::post('/register', 'RegisterController@validateFirstForm')->name('register.first.submit');
@@ -46,6 +46,7 @@ Route::get('/register/success', function(Request $request) {
 Route::get('/login/successful', function() {
     return view('Login.LoginSuccessful');
 })->middleware('auth')->name('login.successful');
+Route::post('/login/successful', 'LoginController@logout')->middleware('auth')->name('logout');
 
 Route::get('/login', 'LoginController@showLoginForm')->name('login');
 Route::post('/login', 'LoginController@login')->name('login.submit');

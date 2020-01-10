@@ -142,6 +142,7 @@
                                 min="1"
                                 name="bewertung"
                                 id="bewertung"
+                                required
                             />
                         </div>
                         <div class="row mb-4 mr-3">
@@ -178,13 +179,13 @@
                             <th scope="col">#</th>
                             <th scope="col">Benutzer</th>
                             <th scope="col">Bewertung</th>
-                            <th scope="col">Bemerkung</th>
+                            <!--<th scope="col">Bemerkung</th>-->
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($kommentare as $kommentar)
                         <tr>
-                            <th scope="row">{{ $loop->iteration }}</th>
+                            <th scope="row">{{ $kommentar->Zeitpunkt }}</th>
                             <td>
                                 {{ $kommentar->student->angehöriger->benutzer->Benutzername }}
                             </td>
@@ -193,7 +194,7 @@
                                     <i class="fa fa-star"></i>
                                 @endfor
                             </td>
-                            <td class="d-inline-block text-truncate" style="max-width: 300px;">{{ $kommentar->Bemerkung }}</td>
+                            <!--<td class="d-inline-block text-truncate" style="max-width: 300px;">{{ $kommentar->Bemerkung }}</td>-->
                         </tr>
                         @endforeach
                     </tbody>

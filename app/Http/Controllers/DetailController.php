@@ -16,15 +16,13 @@ class DetailController extends Controller
     {
         $this->validate($request, [
             'bewertung' => 'required|numeric|min:1|max:5',
-            'bemerkung' => 'string',
-
         ]);
 
         $student = Student::find(Auth::user()->Nummer);
         $kommentar = new Kommentar([
             'Bewertung' => $request->bewertung,
-            'Bemerkung' => $request->bemerkung,
         ]);
+        if(isset($request->bemerkung)) $kommentar->Bemerkung = $request->bemerkung;
         $kommentar->student()->associate($student);
         $kommentar->mahlzeit()->associate(Mahlzeit::find($id));
         $kommentar->save();
@@ -40,7 +38,7 @@ class DetailController extends Controller
             return view("Detail.Mahlzeit", [
                 'zutaten' => $mahlzeit->zutaten,
                 'mahlzeit' => $mahlzeit,
-                'kommentare' => Kommentar::where('Mahlzeiten_ID', $mahlzeit->ID)->orderBy('ID', 'desc')->take(5)->get(),
+                'kommentare' => Kommentar::where('Mahlzeiten_ID', $mahlzeit->ID)->orderBy('Zeitpunkt', 'desc')->take(5)->get(),
                 'id' => $id,
             ]);
         } else return view('Detail.NotFound');

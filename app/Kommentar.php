@@ -9,7 +9,7 @@ class Kommentar extends Model
     protected $table = 'Kommentare';
     protected $primaryKey = 'ID';
     public $timestamps = false;
-    protected $fillable = ['Bewertung', 'Bemerkung'];
+    protected $fillable = ['Bewertung', 'Bemerkung', 'Zeitpunkt'];
 
     public function student() {
         return $this->belongsTo('App\Student', 'Studenten_Nummer');
