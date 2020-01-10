@@ -173,28 +173,28 @@
                 @endif
                 <strong>Durchschnittsbewertung für {{ $mahlzeit->Name }}: {{ $mahlzeit->Bewertung }}</strong>
                 <br><br>
-                <table class="table table-striped">
+                <table class="table">
                     <thead class="thead-dark">
                         <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Benutzer</th>
-                            <th scope="col">Bewertung</th>
-                            <!--<th scope="col">Bemerkung</th>-->
+                            <th scope="col">Benutzer/Datum</th>
+                            <th scope="col">Bewertung/Bemerkung</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($kommentare as $kommentar)
                         <tr>
-                            <th scope="row">{{ $kommentar->Zeitpunkt }}</th>
-                            <td>
-                                {{ $kommentar->student->angehöriger->benutzer->Benutzername }}
+                            <td scope="row">
+                                <p>{{ $kommentar->student->angehöriger->benutzer->Benutzername }}</p>
+                                <p>{{ date('d.m.Y',strtotime($kommentar->Zeitpunkt)) }}</p>
                             </td>
                             <td>
+                                <p>
                                 @for($i = 0; $i < $kommentar->Bewertung; $i++)
                                     <i class="fa fa-star"></i>
                                 @endfor
+                                </p>
+                                <p class="d-inline-block text-truncate" style="max-width: 300px;">{{ $kommentar->Bemerkung }}</p>
                             </td>
-                            <!--<td class="d-inline-block text-truncate" style="max-width: 300px;">{{ $kommentar->Bemerkung }}</td>-->
                         </tr>
                         @endforeach
                     </tbody>
