@@ -183,7 +183,7 @@
                     <tbody>
                         @foreach($kommentare as $kommentar)
                         <tr>
-                            <td scope="row">
+                            <td>
                                 <p>{{ $kommentar->student->angehöriger->benutzer->Benutzername }}</p>
                                 <p>{{ date('d.m.Y',strtotime($kommentar->Zeitpunkt)) }}</p>
                             </td>

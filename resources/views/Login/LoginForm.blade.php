@@ -18,7 +18,6 @@
                 value="{{ old('Benutzername') }}"
                 @if(Route::currentRouteName() == 'details') placeholder="Benutzername" @endif
                 required
-                autocomplete="benutzername"
                 autofocus
             />
 
