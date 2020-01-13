@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
+use App\Benutzer;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -13,10 +15,17 @@ class LoginController extends Controller
         //Validate Form
         $this->validate($request, [
             'Benutzername' => 'required|exists:Benutzer',
-            'password' => 'required',
+            'password' => [
+                'required',
+                function ($attribute, $value, $fail) use($request) {
+                    $benutzer = Benutzer::where('Benutzername', $request->Benutzername)->first();
+                    if (isset($benutzer) && !Hash::check($value, $benutzer->Hash)) {
+                        $fail('Das eingebene Passwort ist falsch.');
+                    }
+                }
+                ]
         ], [
             'Benutzername.exists' => 'Der eingegebene Benutzername existiert nicht.',
-            'password' => 'Das eingebene Passwort ist falsch.'
         ]);
 
         //Attempt to Login

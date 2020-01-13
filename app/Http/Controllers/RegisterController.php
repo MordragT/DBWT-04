@@ -50,7 +50,7 @@ class RegisterController extends Controller
             'Geburtsdatum' => 'date',
             'Grund' => Rule::requiredIf(!$mitarbeiter and !$student),
             'Fachbereich' => Rule::requiredIf($mitarbeiter or $student),
-            'Matrikelnummer' => 'unique:Studenten',
+            'Matrikelnummer' => ['unique:Studenten', Rule::requiredIf($student)],
             'Studiengang' => Rule::requiredIf($student),
             'Telefon' => 'max:15',
             'Büro' => 'max:4',
